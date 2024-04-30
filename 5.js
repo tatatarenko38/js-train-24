@@ -5,31 +5,29 @@ function task5() {
   // Створюємо змінну counter яка буде лічильником та присвоюємо значення 0
   let counter = 0;
   // Створюємо проміс з іменем intervalPromise.
-  function intervalPromise() {
+  const intervalPromise =
     new Promise((resolve, reject) => {
-      console.log(`Значення лічильника: ${counter}`);
-      counter++;
 
-      const intervalId = setInterval(intervalPromise(counter), 1000);
-
-      if (counter >= 5) {
-
-        clearInterval(intervalId);
-
-        resolve();
-      }
+      let intervalId = setInterval(() => {
+        counter++;
+        console.log(`Значення лічильника: ${counter}`);
+        if (counter >= 5) {
+          clearInterval(intervalId);
+          resolve(counter);
+        }
+      }, 1000);
     });
-  }
-  Promise.all([intervalPromise()])
-    .then((counter) => {
-      console.log(`Значення лічильника: ${counter}`);
-    })
-    .catch((error) => {
-      console.log("Error", error);
-    })
-    .finally(() => {
-      console.log("Завершення лічильника");
-    });
+
+  intervalPromise
+    .then((value) =>
+      console.log(value)
+    )
+    .catch((error) =>
+      console.log(error)
+    )
+    .finally(() =>
+      console.log("Завершення лічильника")
+    );
 
   // Використовуємо функцію setInterval, щоб імітувати асинхронну операцію яка повторюється кожну секунду
   // збільшуючи лічильник на 1
